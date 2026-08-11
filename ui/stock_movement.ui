@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+
+ <class>StockMovementWindow</class>
+
+ <widget class="QMainWindow" name="StockMovementWindow">
+
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1100</width>
+    <height>700</height>
+   </rect>
+  </property>
+
+  <property name="windowTitle">
+   <string>CLMS - Mouvements de stock</string>
+  </property>
+
+  <widget class="QWidget" name="centralwidget">
+
+   <!-- ================================================= -->
+   <!-- TITRE -->
+   <!-- ================================================= -->
+
+   <widget class="QLabel" name="lblTitre">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>20</y>
+      <width>1000</width>
+      <height>40</height>
+     </rect>
+    </property>
+
+    <property name="text">
+     <string>Mouvements de stock</string>
+    </property>
+   </widget>
+
+
+   <!-- ================================================= -->
+   <!-- DESCRIPTION -->
+   <!-- ================================================= -->
+
+   <widget class="QLabel" name="lblDescription">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>65</y>
+      <width>1000</width>
+      <height>30</height>
+     </rect>
+    </property>
+
+    <property name="text">
+     <string>Suivi des entrées et sorties de stock enregistrées dans CLMS.</string>
+    </property>
+   </widget>
+
+
+   <!-- ================================================= -->
+   <!-- FILTRE TYPE -->
+   <!-- ================================================= -->
+
+   <widget class="QComboBox" name="cmbType">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>115</y>
+      <width>200</width>
+      <height>35</height>
+     </rect>
+    </property>
+
+    <item>
+     <property name="text">
+      <string>Tous</string>
+     </property>
+    </item>
+
+    <item>
+     <property name="text">
+      <string>Entrées</string>
+     </property>
+    </item>
+
+    <item>
+     <property name="text">
+      <string>Sorties</string>
+     </property>
+    </item>
+   </widget>
+
+
+   <!-- ================================================= -->
+   <!-- RECHERCHE -->
+   <!-- ================================================= -->
+
+   <widget class="QLineEdit" name="txtRecherche">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>115</y>
+      <width>300</width>
+      <height>35</height>
+     </rect>
+    </property>
+
+    <property name="placeholderText">
+     <string>Rechercher un produit, une référence...</string>
+    </property>
+   </widget>
+
+
+   <!-- ================================================= -->
+   <!-- ACTUALISER -->
+   <!-- ================================================= -->
+
+   <widget class="QPushButton" name="btnActualiser">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>115</y>
+      <width>150</width>
+      <height>35</height>
+     </rect>
+    </property>
+
+    <property name="text">
+     <string>Actualiser</string>
+    </property>
+   </widget>
+
+
+   <!-- ================================================= -->
+   <!-- TOTAL ENTREES -->
+   <!-- ================================================= -->
+
+   <widget class="QLabel" name="lblTotalEntrees">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>165</y>
+      <width>250</width>
+      <height>30</height>
+     </rect>
+    </property>
+
+    <property name="text">
+     <string>Total Entrées : 0</string>
+    </property>
+   </widget>
+
+
+   <!-- ================================================= -->
+   <!-- TOTAL SORTIES -->
+   <!-- ================================================= -->
+
+   <widget class="QLabel" name="lblTotalSorties">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>165</y>
+      <width>250</width>
+      <height>30</height>
+     </rect>
+    </property>
+
+    <property name="text">
+     <string>Total Sorties : 0</string>
+    </property>
+   </widget>
+
+
+   <!-- ================================================= -->
+   <!-- TABLE MOUVEMENTS STOCK -->
+   <!-- ================================================= -->
+
+   <widget class="QTableWidget" name="tableStockMovements">
+
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>210</y>
+      <width>1040</width>
+      <height>400</height>
+     </rect>
+    </property>
+
+    <property name="columnCount">
+     <number>7</number>
+    </property>
+
+    <property name="rowCount">
+     <number>0</number>
+    </property>
+
+    <column>
+     <property name="text">
+      <string>Type</string>
+     </property>
+    </column>
+
+    <column>
+     <property name="text">
+      <string>Référence</string>
+     </property>
+    </column>
+
+    <column>
+     <property name="text">
+      <string>Produit</string>
+     </property>
+    </column>
+
+    <column>
+     <property name="text">
+      <string>Quantité</string>
+     </property>
+    </column>
+
+    <column>
+     <property name="text">
+      <string>Tiers</string>
+     </property>
+    </column>
+
+    <column>
+     <property name="text">
+      <string>N° Bon</string>
+     </property>
+    </column>
+
+    <column>
+     <property name="text">
+      <string>Date</string>
+     </property>
+    </column>
+
+   </widget>
+
+
+   <!-- ================================================= -->
+   <!-- FERMER -->
+   <!-- ================================================= -->
+
+   <widget class="QPushButton" name="btnFermer">
+
+    <property name="geometry">
+     <rect>
+      <x>920</x>
+      <y>625</y>
+      <width>150</width>
+      <height>40</height>
+     </rect>
+    </property>
+
+    <property name="text">
+     <string>Fermer</string>
+    </property>
+
+   </widget>
+
+  </widget>
+
+
+  <widget class="QStatusBar" name="statusbar"/>
+
+ </widget>
+
+ <resources/>
+
+ <connections/>
+
+</ui>

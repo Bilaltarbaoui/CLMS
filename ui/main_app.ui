@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+
+ <widget class="QMainWindow" name="MainWindow">
+
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1000</width>
+    <height>700</height>
+   </rect>
+  </property>
+
+  <property name="windowTitle">
+   <string>CLMS - Gestion Logistique</string>
+  </property>
+
+  <widget class="QWidget" name="centralwidget">
+
+   <!-- TITRE -->
+   <widget class="QLabel" name="lblTitre">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>20</y>
+      <width>400</width>
+      <height>40</height>
+     </rect>
+    </property>
+
+    <property name="text">
+     <string>CLMS - Gestion Logistique</string>
+    </property>
+   </widget>
+
+
+   <!-- DASHBOARD -->
+   <widget class="QPushButton" name="btnDashboard">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>100</y>
+      <width>180</width>
+      <height>50</height>
+     </rect>
+    </property>
+
+    <property name="text">
+     <string>Dashboard</string>
+    </property>
+   </widget>
+
+
+   <!-- CLIENTS -->
+   <widget class="QPushButton" name="btnClients">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>100</y>
+      <width>180</width>
+      <height>50</height>
+     </rect>
+    </property>
+
+    <property name="text">
+     <string>Clients</string>
+    </property>
+   </widget>
+
+
+   <!-- PRODUITS -->
+   <widget class="QPushButton" name="btnProduits">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>100</y>
+      <width>180</width>
+      <height>50</height>
+     </rect>
+    </property>
+
+    <property name="text">
+     <string>Produits</string>
+    </property>
+   </widget>
+
+
+   <!-- ENTREES -->
+   <widget class="QPushButton" name="btnEntrees">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>100</y>
+      <width>180</width>
+      <height>50</height>
+     </rect>
+    </property>
+
+    <property name="text">
+     <string>Entrées</string>
+    </property>
+   </widget>
+
+
+   <!-- SORTIES -->
+   <widget class="QPushButton" name="btnSorties">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>180</y>
+      <width>180</width>
+      <height>50</height>
+     </rect>
+    </property>
+
+    <property name="text">
+     <string>Sorties</string>
+    </property>
+   </widget>
+
+
+   <!-- VEHICULES -->
+   <widget class="QPushButton" name="btnVehicules">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>180</y>
+      <width>180</width>
+      <height>50</height>
+     </rect>
+    </property>
+
+    <property name="text">
+     <string>Véhicules</string>
+    </property>
+   </widget>
+
+
+   <!-- GASOIL -->
+   <widget class="QPushButton" name="btnGasoil">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>180</y>
+      <width>180</width>
+      <height>50</height>
+     </rect>
+    </property>
+
+    <property name="text">
+     <string>Gasoil</string>
+    </property>
+   </widget>
+
+
+   <!-- HISTORIQUE -->
+   <widget class="QPushButton" name="btnHistorique">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>180</y>
+      <width>180</width>
+      <height>50</height>
+     </rect>
+    </property>
+
+    <property name="text">
+     <string>Historique</string>
+    </property>
+   </widget>
+
+
+   <!-- PARAMETRES -->
+   <widget class="QPushButton" name="btnParametres">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>260</y>
+      <width>180</width>
+      <height>50</height>
+     </rect>
+    </property>
+
+    <property name="text">
+     <string>Paramètres</string>
+    </property>
+   </widget>
+
+
+   <!-- A PROPOS -->
+   <widget class="QPushButton" name="btnAPropos">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>260</y>
+      <width>180</width>
+      <height>50</height>
+     </rect>
+    </property>
+
+    <property name="text">
+     <string>À propos</string>
+    </property>
+   </widget>
+
+  </widget>
+
+
+  <!-- MENU BAR -->
+  <widget class="QMenuBar" name="menubar">
+
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1000</width>
+     <height>18</height>
+    </rect>
+   </property>
+
+  </widget>
+
+
+  <!-- STATUS BAR -->
+  <widget class="QStatusBar" name="statusbar"/>
+
+ </widget>
+
+ <resources/>
+ <connections/>
+
+</ui>

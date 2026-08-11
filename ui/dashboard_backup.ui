@@ -1,0 +1,818 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ui version="4.0">
+    <class>MainWindow</class>
+
+    <widget class="QMainWindow" name="MainWindow">
+
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>1200</width>
+                <height>800</height>
+            </rect>
+        </property>
+
+        <property name="windowTitle">
+            <string>CLMS - Dashboard</string>
+        </property>
+
+        <widget class="QWidget" name="centralwidget">
+
+            <property name="styleSheet">
+                <string notr="true">
+QWidget#centralwidget {
+    background-color: #F5F7FA;
+}
+
+QLabel {
+    color: #1F2937;
+}
+
+QFrame {
+    background-color: white;
+    border-radius: 10px;
+}
+                </string>
+            </property>
+
+            <!-- ===================================================== -->
+            <!-- TITRE -->
+            <!-- ===================================================== -->
+
+            <widget class="QLabel" name="lblTitre">
+                <property name="geometry">
+                    <rect>
+                        <x>40</x>
+                        <y>25</y>
+                        <width>500</width>
+                        <height>45</height>
+                    </rect>
+                </property>
+
+                <property name="styleSheet">
+                    <string>
+font-size: 26px;
+font-weight: bold;
+color: #111827;
+                    </string>
+                </property>
+
+                <property name="text">
+                    <string>CLMS - Dashboard</string>
+                </property>
+            </widget>
+
+            <!-- ===================================================== -->
+            <!-- SOUS TITRE -->
+            <!-- ===================================================== -->
+
+            <widget class="QLabel" name="lblSousTitre">
+                <property name="geometry">
+                    <rect>
+                        <x>40</x>
+                        <y>65</y>
+                        <width>600</width>
+                        <height>30</height>
+                    </rect>
+                </property>
+
+                <property name="styleSheet">
+                    <string>
+font-size: 13px;
+color: #6B7280;
+                    </string>
+                </property>
+
+                <property name="text">
+                    <string>Vue globale de l'activité logistique</string>
+                </property>
+            </widget>
+
+            <!-- ===================================================== -->
+            <!-- CARD PRODUITS -->
+            <!-- ===================================================== -->
+
+            <widget class="QFrame" name="cardProduits">
+
+                <property name="geometry">
+                    <rect>
+                        <x>40</x>
+                        <y>115</y>
+                        <width>175</width>
+                        <height>100</height>
+                    </rect>
+                </property>
+
+                <property name="styleSheet">
+                    <string>
+QFrame#cardProduits {
+    background-color: white;
+    border-left: 5px solid #2563EB;
+    border-radius: 10px;
+}
+                    </string>
+                </property>
+
+                <widget class="QLabel" name="lblTitreProduits">
+
+                    <property name="geometry">
+                        <rect>
+                            <x>15</x>
+                            <y>12</y>
+                            <width>145</width>
+                            <height>25</height>
+                        </rect>
+                    </property>
+
+                    <property name="styleSheet">
+                        <string>
+font-size: 12px;
+font-weight: bold;
+color: #6B7280;
+                        </string>
+                    </property>
+
+                    <property name="text">
+                        <string>📦 Produits</string>
+                    </property>
+
+                </widget>
+
+                <widget class="QLabel" name="lblProduits">
+
+                    <property name="geometry">
+                        <rect>
+                            <x>15</x>
+                            <y>43</y>
+                            <width>150</width>
+                            <height>38</height>
+                        </rect>
+                    </property>
+
+                    <property name="styleSheet">
+                        <string>
+font-size: 20px;
+font-weight: bold;
+color: #2563EB;
+                        </string>
+                    </property>
+
+                    <property name="text">
+                        <string>1</string>
+                    </property>
+
+                </widget>
+
+            </widget>
+
+            <!-- ===================================================== -->
+            <!-- CARD ENTREES -->
+            <!-- ===================================================== -->
+
+            <widget class="QFrame" name="cardEntrees">
+
+                <property name="geometry">
+                    <rect>
+                        <x>225</x>
+                        <y>115</y>
+                        <width>175</width>
+                        <height>100</height>
+                    </rect>
+                </property>
+
+                <property name="styleSheet">
+                    <string>
+QFrame#cardEntrees {
+    background-color: white;
+    border-left: 5px solid #16A34A;
+    border-radius: 10px;
+}
+                    </string>
+                </property>
+
+                <widget class="QLabel" name="lblTitreEntrees">
+
+                    <property name="geometry">
+                        <rect>
+                            <x>15</x>
+                            <y>12</y>
+                            <width>145</width>
+                            <height>25</height>
+                        </rect>
+                    </property>
+
+                    <property name="styleSheet">
+                        <string>
+font-size: 12px;
+font-weight: bold;
+color: #6B7280;
+                        </string>
+                    </property>
+
+                    <property name="text">
+                        <string>↓ Entrées</string>
+                    </property>
+
+                </widget>
+
+                <widget class="QLabel" name="lblTotalEntrees">
+
+                    <property name="geometry">
+                        <rect>
+                            <x>15</x>
+                            <y>43</y>
+                            <width>155</width>
+                            <height>38</height>
+                        </rect>
+                    </property>
+
+                    <property name="styleSheet">
+                        <string>
+font-size: 20px;
+font-weight: bold;
+color: #16A34A;
+                        </string>
+                    </property>
+
+                    <property name="text">
+                        <string>230.0</string>
+                    </property>
+
+                </widget>
+
+            </widget>
+
+            <!-- ===================================================== -->
+            <!-- CARD SORTIES -->
+            <!-- ===================================================== -->
+
+            <widget class="QFrame" name="cardSorties">
+
+                <property name="geometry">
+                    <rect>
+                        <x>410</x>
+                        <y>115</y>
+                        <width>175</width>
+                        <height>100</height>
+                    </rect>
+                </property>
+
+                <property name="styleSheet">
+                    <string>
+QFrame#cardSorties {
+    background-color: white;
+    border-left: 5px solid #F59E0B;
+    border-radius: 10px;
+}
+                    </string>
+                </property>
+
+                <widget class="QLabel" name="lblTitreSorties">
+
+                    <property name="geometry">
+                        <rect>
+                            <x>15</x>
+                            <y>12</y>
+                            <width>145</width>
+                            <height>25</height>
+                        </rect>
+                    </property>
+
+                    <property name="styleSheet">
+                        <string>
+font-size: 12px;
+font-weight: bold;
+color: #6B7280;
+                        </string>
+                    </property>
+
+                    <property name="text">
+                        <string>↑ Sorties</string>
+                    </property>
+
+                </widget>
+
+                <widget class="QLabel" name="lblTotalSorties">
+
+                    <property name="geometry">
+                        <rect>
+                            <x>15</x>
+                            <y>43</y>
+                            <width>155</width>
+                            <height>38</height>
+                        </rect>
+                    </property>
+
+                    <property name="styleSheet">
+                        <string>
+font-size: 20px;
+font-weight: bold;
+color: #D97706;
+                        </string>
+                    </property>
+
+                    <property name="text">
+                        <string>85.0</string>
+                    </property>
+
+                </widget>
+
+            </widget>
+
+            <!-- ===================================================== -->
+            <!-- CARD VEHICULES -->
+            <!-- ===================================================== -->
+
+            <widget class="QFrame" name="cardVehicules">
+
+                <property name="geometry">
+                    <rect>
+                        <x>595</x>
+                        <y>115</y>
+                        <width>175</width>
+                        <height>100</height>
+                    </rect>
+                </property>
+
+                <property name="styleSheet">
+                    <string>
+QFrame#cardVehicules {
+    background-color: white;
+    border-left: 5px solid #0891B2;
+    border-radius: 10px;
+}
+                    </string>
+                </property>
+
+                <widget class="QLabel" name="lblTitreVehicules">
+
+                    <property name="geometry">
+                        <rect>
+                            <x>15</x>
+                            <y>12</y>
+                            <width>145</width>
+                            <height>25</height>
+                        </rect>
+                    </property>
+
+                    <property name="styleSheet">
+                        <string>
+font-size: 12px;
+font-weight: bold;
+color: #6B7280;
+                        </string>
+                    </property>
+
+                    <property name="text">
+                        <string>🚛 Véhicules</string>
+                    </property>
+
+                </widget>
+
+                <widget class="QLabel" name="lblVehicules">
+
+                    <property name="geometry">
+                        <rect>
+                            <x>15</x>
+                            <y>43</y>
+                            <width>150</width>
+                            <height>38</height>
+                        </rect>
+                    </property>
+
+                    <property name="styleSheet">
+                        <string>
+font-size: 20px;
+font-weight: bold;
+color: #0891B2;
+                        </string>
+                    </property>
+
+                    <property name="text">
+                        <string>3</string>
+                    </property>
+
+                </widget>
+
+            </widget>
+
+            <!-- ===================================================== -->
+            <!-- CARD GASOIL -->
+            <!-- ===================================================== -->
+
+            <widget class="QFrame" name="cardGasoil">
+
+                <property name="geometry">
+                    <rect>
+                        <x>780</x>
+                        <y>115</y>
+                        <width>175</width>
+                        <height>100</height>
+                    </rect>
+                </property>
+
+                <property name="styleSheet">
+                    <string>
+QFrame#cardGasoil {
+    background-color: white;
+    border-left: 5px solid #7C3AED;
+    border-radius: 10px;
+}
+                    </string>
+                </property>
+
+                <widget class="QLabel" name="lblTitreGasoil">
+
+                    <property name="geometry">
+                        <rect>
+                            <x>15</x>
+                            <y>12</y>
+                            <width>145</width>
+                            <height>25</height>
+                        </rect>
+                    </property>
+
+                    <property name="styleSheet">
+                        <string>
+font-size: 12px;
+font-weight: bold;
+color: #6B7280;
+                        </string>
+                    </property>
+
+                    <property name="text">
+                        <string>⛽ Gasoil</string>
+                    </property>
+
+                </widget>
+
+                <widget class="QLabel" name="lblTotalGasoil">
+
+                    <property name="geometry">
+                        <rect>
+                            <x>15</x>
+                            <y>43</y>
+                            <width>155</width>
+                            <height>38</height>
+                        </rect>
+                    </property>
+
+                    <property name="styleSheet">
+                        <string>
+font-size: 20px;
+font-weight: bold;
+color: #7C3AED;
+                        </string>
+                    </property>
+
+                    <property name="text">
+                        <string>210.0 L</string>
+                    </property>
+
+                </widget>
+
+            </widget>
+
+            <!-- ===================================================== -->
+            <!-- CARD ALERTES -->
+            <!-- ===================================================== -->
+
+            <widget class="QFrame" name="cardAlertes">
+
+                <property name="geometry">
+                    <rect>
+                        <x>965</x>
+                        <y>115</y>
+                        <width>175</width>
+                        <height>100</height>
+                    </rect>
+                </property>
+
+                <property name="styleSheet">
+                    <string>
+QFrame#cardAlertes {
+    background-color: white;
+    border-left: 5px solid #22C55E;
+    border-radius: 10px;
+}
+                    </string>
+                </property>
+
+                <widget class="QLabel" name="lblTitreAlertes">
+
+                    <property name="geometry">
+                        <rect>
+                            <x>15</x>
+                            <y>12</y>
+                            <width>145</width>
+                            <height>25</height>
+                        </rect>
+                    </property>
+
+                    <property name="styleSheet">
+                        <string>
+font-size: 12px;
+font-weight: bold;
+color: #6B7280;
+                        </string>
+                    </property>
+
+                    <property name="text">
+                        <string>⚠️ Alertes</string>
+                    </property>
+
+                </widget>
+
+                <widget class="QLabel" name="lblAlertes">
+
+                    <property name="geometry">
+                        <rect>
+                            <x>15</x>
+                            <y>43</y>
+                            <width>155</width>
+                            <height>38</height>
+                        </rect>
+                    </property>
+
+                    <property name="styleSheet">
+                        <string>
+font-size: 20px;
+font-weight: bold;
+color: #16A34A;
+                        </string>
+                    </property>
+
+                    <property name="text">
+                        <string>0</string>
+                    </property>
+
+                </widget>
+
+            </widget>
+
+            <!-- ===================================================== -->
+            <!-- BOUTON ACTUALISER -->
+            <!-- ===================================================== -->
+
+            <widget class="QPushButton" name="btnActualiser">
+
+                <property name="geometry">
+                    <rect>
+                        <x>40</x>
+                        <y>240</y>
+                        <width>130</width>
+                        <height>40</height>
+                    </rect>
+                </property>
+
+                <property name="styleSheet">
+                    <string>
+QPushButton {
+    background-color: #2563EB;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    background-color: #1D4ED8;
+}
+                    </string>
+                </property>
+
+                <property name="text">
+                    <string>↻ Actualiser</string>
+                </property>
+
+            </widget>
+
+            <!-- ===================================================== -->
+            <!-- TABLEAU MOUVEMENTS -->
+            <!-- ===================================================== -->
+
+            <widget class="QTableWidget" name="tableMouvements">
+
+                <property name="geometry">
+                    <rect>
+                        <x>40</x>
+                        <y>300</y>
+                        <width>1120</width>
+                        <height>220</height>
+                    </rect>
+                </property>
+
+                <property name="columnCount">
+                    <number>6</number>
+                </property>
+
+                <property name="styleSheet">
+                    <string>
+QTableWidget {
+    background-color: white;
+    border: 1px solid #E5E7EB;
+    border-radius: 10px;
+    gridline-color: #E5E7EB;
+    font-size: 13px;
+}
+
+QHeaderView::section {
+    background-color: #F3F4F6;
+    color: #374151;
+    font-weight: bold;
+    padding: 8px;
+    border: none;
+}
+                    </string>
+                </property>
+
+                <column>
+                    <property name="text">
+                        <string>Type</string>
+                    </property>
+                </column>
+
+                <column>
+                    <property name="text">
+                        <string>Référence</string>
+                    </property>
+                </column>
+
+                <column>
+                    <property name="text">
+                        <string>Produit</string>
+                    </property>
+                </column>
+
+                <column>
+                    <property name="text">
+                        <string>Quantité</string>
+                    </property>
+                </column>
+
+                <column>
+                    <property name="text">
+                        <string>Tiers</string>
+                    </property>
+                </column>
+
+                <column>
+                    <property name="text">
+                        <string>Date</string>
+                    </property>
+                </column>
+
+            </widget>
+
+            <!-- ===================================================== -->
+            <!-- TABLEAU GASOIL PAR VEHICULE -->
+            <!-- ===================================================== -->
+
+            <widget class="QTableWidget" name="tableGasoilVehicules">
+
+                <property name="geometry">
+                    <rect>
+                        <x>40</x>
+                        <y>550</y>
+                        <width>520</width>
+                        <height>180</height>
+                    </rect>
+                </property>
+
+                <property name="columnCount">
+                    <number>3</number>
+                </property>
+
+                <property name="styleSheet">
+                    <string>
+QTableWidget {
+    background-color: white;
+    border: 1px solid #E5E7EB;
+    border-radius: 10px;
+    gridline-color: #E5E7EB;
+    font-size: 13px;
+}
+
+QHeaderView::section {
+    background-color: #F3F4F6;
+    color: #374151;
+    font-weight: bold;
+    padding: 8px;
+    border: none;
+}
+                    </string>
+                </property>
+
+                <column>
+                    <property name="text">
+                        <string>Matricule</string>
+                    </property>
+                </column>
+
+                <column>
+                    <property name="text">
+                        <string>Opérations</string>
+                    </property>
+                </column>
+
+                <column>
+                    <property name="text">
+                        <string>Total Gasoil</string>
+                    </property>
+                </column>
+
+            </widget>
+
+            <!-- ===================================================== -->
+            <!-- TABLEAU VEHICULES -->
+            <!-- ===================================================== -->
+
+            <widget class="QTableWidget" name="tableVehicules">
+
+                <property name="geometry">
+                    <rect>
+                        <x>580</x>
+                        <y>550</y>
+                        <width>580</width>
+                        <height>180</height>
+                    </rect>
+                </property>
+
+                <property name="columnCount">
+                    <number>3</number>
+                </property>
+
+                <property name="styleSheet">
+                    <string>
+QTableWidget {
+    background-color: white;
+    border: 1px solid #E5E7EB;
+    border-radius: 10px;
+    gridline-color: #E5E7EB;
+    font-size: 13px;
+}
+
+QHeaderView::section {
+    background-color: #F3F4F6;
+    color: #374151;
+    font-weight: bold;
+    padding: 8px;
+    border: none;
+}
+                    </string>
+                </property>
+
+                <column>
+                    <property name="text">
+                        <string>Véhicule</string>
+                    </property>
+                </column>
+
+                <column>
+                    <property name="text">
+                        <string>Nombre opérations</string>
+                    </property>
+                </column>
+
+                <column>
+                    <property name="text">
+                        <string>Total Gasoil</string>
+                    </property>
+                </column>
+
+            </widget>
+
+        </widget>
+
+        <!-- ===================================================== -->
+        <!-- MENU -->
+        <!-- ===================================================== -->
+
+        <widget class="QMenuBar" name="menubar">
+
+            <property name="geometry">
+                <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>1200</width>
+                    <height>22</height>
+                </rect>
+            </property>
+
+        </widget>
+
+        <!-- ===================================================== -->
+        <!-- STATUS BAR -->
+        <!-- ===================================================== -->
+
+        <widget class="QStatusBar" name="statusbar"/>
+
+    </widget>
+
+    <resources/>
+    <connections/>
+
+</ui>
