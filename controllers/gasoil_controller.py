@@ -66,15 +66,21 @@ class GasoilController:
     # =====================================================
 
     def get_statistics_by_vehicle(self):
-
         operations = self.model.get_all()
 
         statistiques = {}
 
         for operation in operations:
 
-            vehicule = operation[1]
-            quantite = operation[5]
+            if len(operation) < 6:
+                continue
+
+            vehicule = str(operation[1]).strip()
+
+            try:
+                quantite = float(operation[5])
+            except (ValueError, TypeError):
+                quantite = 0
 
             if vehicule not in statistiques:
 
@@ -85,11 +91,13 @@ class GasoilController:
 
             statistiques[vehicule]["operations"] += 1
 
-            statistiques[vehicule]["quantite"] += float(
-                quantite
-            )
+            statistiques[vehicule]["quantite"] += quantite
 
         return statistiques
+
+    def get_total_gasoil(self):
+        statistics = self.model.get_statistics_by_vehicle()
+        return sum((row[2] or 0) for row in statistics)
 
     # =====================================================
     # MODIFIER
@@ -128,55 +136,6 @@ class GasoilController:
         self.model.supprimer(
             id_operation
         )
-        
-# =====================================================
-# STATISTIQUES GASOIL PAR VEHICULE
-# =====================================================
-
-def get_statistics_by_vehicle(self):
-
-    operations = self.model.get_all()
-
-    statistiques = {}
-
-    for operation in operations:
-
-        if len(operation) < 6:
-            continue
-
-        vehicule = str(
-            operation[1]
-        ).strip()
-
-        try:
-            quantite = float(
-                operation[5]
-            )
-
-        except (ValueError, TypeError):
-            quantite = 0
-
-        # ---------------------------------------------
-        # PREMIERE OPERATION DU VEHICULE
-        # ---------------------------------------------
-
-        if vehicule not in statistiques:
-
-            statistiques[vehicule] = {
-                "operations": 0,
-                "quantite": 0
-            }
-
-        # ---------------------------------------------
-        # CALCUL
-        # ---------------------------------------------
-
-        statistiques[vehicule]["operations"] += 1
-
-        statistiques[vehicule]["quantite"] += quantite
-
-    return statistiques
-
 
     # =====================================================
     # FERMER
@@ -184,7 +143,15 @@ def get_statistics_by_vehicle(self):
 
     def close(self):
 
-        self.model.close()
+        try:
+            if getattr(self, 'model', None) and hasattr(self.model, 'close'):
+                self.model.close()
+        except Exception:
+            pass
 
-        self.vehicle_model.close()
+        try:
+            if getattr(self, 'vehicle_model', None) and hasattr(self.vehicle_model, 'close'):
+                self.vehicle_model.close()
+        except Exception:
+            pass
     

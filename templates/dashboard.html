@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="dashboard-grid">
+    <div class="card card-primary">
+      <div class="card-title">Produits</div>
+      <div class="card-value">{{ data.produits }}</div>
+    </div>
+    <div class="card card-success">
+      <div class="card-title">Total Entrées</div>
+      <div class="card-value">{{ data.total_entrees }}</div>
+    </div>
+    <div class="card card-danger">
+      <div class="card-title">Total Sorties</div>
+      <div class="card-value">{{ data.total_sorties }}</div>
+    </div>
+    <div class="card card-info">
+      <div class="card-title">Véhicules</div>
+      <div class="card-value">{{ data.vehicules }}</div>
+    </div>
+    <div class="card card-warning">
+      <div class="card-title">Total Gasoil</div>
+      <div class="card-value">{{ data.total_gasoil|int }} L</div>
+    </div>
+    <div class="card card-alert">
+      <div class="card-title">Alertes</div>
+      <div class="card-value">{{ data.alertes }}</div>
+    </div>
+  </div>
+
+  <div class="movements-panel">
+    <div class="panel-header">Derniers mouvements</div>
+    <table class="table-full">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Référence</th>
+          <th>Produit</th>
+          <th>Quantité</th>
+          <th>Tiers</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for mouvement in data.mouvements %}
+          <tr>
+            <td>{{ mouvement[0] }}</td>
+            <td>{{ mouvement[1] }}</td>
+            <td>{{ mouvement[2] }}</td>
+            <td>{{ mouvement[3] }}</td>
+            <td>{{ mouvement[4] }}</td>
+            <td>{{ mouvement[5] }}</td>
+          </tr>
+        {% else %}
+          <tr>
+            <td colspan="6" class="empty-row">Aucun mouvement trouvé.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
