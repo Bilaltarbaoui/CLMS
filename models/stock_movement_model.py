@@ -1,5 +1,7 @@
 import sqlite3
 
+from database.database import Database
+
 
 class StockMovementModel:
 
@@ -9,10 +11,7 @@ class StockMovementModel:
         # DATABASE
         # =====================================================
 
-        self.connection = sqlite3.connect(
-            "database/clms.db"
-        )
-
+        self.connection = Database.get_safe_connection("database/clms.db")
         self.cursor = self.connection.cursor()
 
         print("STOCK MOVEMENT MODEL = OK")

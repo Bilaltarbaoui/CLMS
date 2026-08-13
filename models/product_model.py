@@ -1,15 +1,14 @@
 import sqlite3
 from datetime import datetime
 
+from database.database import Database
+
 
 class ProductModel:
 
     def __init__(self):
 
-        self.connection = sqlite3.connect(
-            "database/clms.db"
-        )
-
+        self.connection = Database.get_safe_connection("database/clms.db")
         self.cursor = self.connection.cursor()
 
     # =====================================================
@@ -205,3 +204,16 @@ class ProductModel:
         )
 
         return self.cursor.fetchall()
+
+    # =====================================================
+    # FERMER DATABASE
+    # =====================================================
+
+    def close(self):
+
+        if getattr(self, 'connection', None):
+
+            try:
+                self.connection.close()
+            except Exception:
+                pass
