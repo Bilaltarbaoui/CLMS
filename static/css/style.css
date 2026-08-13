@@ -146,6 +146,8 @@ body {
 }
 
 .table-full th {
+  background: #f8fafc;
+}
   font-size: 0.9rem;
   color: #4b5563;
   font-weight: 600;

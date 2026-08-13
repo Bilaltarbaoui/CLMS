@@ -77,3 +77,16 @@ class SortieController:
     def get_all_sorties(self):
 
         return self.model.get_all_sorties()
+
+    # =====================================================
+    # FERMER
+    # =====================================================
+
+    def close(self):
+
+        if getattr(self, 'model', None) and hasattr(self.model, 'close'):
+
+            try:
+                self.model.close()
+            except Exception:
+                pass

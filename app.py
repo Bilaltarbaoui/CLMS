@@ -501,14 +501,14 @@ def ouvrir_historique():
     print("OUVERTURE HISTORIQUE = OK")
 
     history_file = QFile(
-        "ui/stock_movement.ui"
+        "ui/history.ui"
     )
 
     if not history_file.exists():
 
         print(
             "ERREUR : "
-            "ui/stock_movement.ui N'EXISTE PAS"
+                "ui/history.ui N'EXISTE PAS"
         )
 
         return
@@ -519,7 +519,7 @@ def ouvrir_historique():
 
         print(
             "ERREUR : impossible d'ouvrir "
-            "ui/stock_movement.ui"
+            "ui/history.ui"
         )
 
         return

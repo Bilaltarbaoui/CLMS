@@ -218,7 +218,6 @@ class HistoryView:
         print(
             "HISTORY VIEW = OK"
         )
-
     # =========================================================
     # CHARGER HISTORIQUE COMPLET
     # =========================================================
@@ -337,6 +336,7 @@ class HistoryView:
                 "ERREUR FILTRAGE HISTORIQUE :",
                 e
             )
+
 
     # =========================================================
     # DETECTER LE TYPE D'OPERATION
@@ -488,122 +488,16 @@ class HistoryView:
         self,
         historique
     ):
+        # Complete History does not compute stock totals.
+        # Stock movement totals are handled by StockMovementView only.
+        try:
+            if self.lblTotalEntrees is not None:
+                self.lblTotalEntrees.setText("")
 
-        total_entrees = 0
-        total_sorties = 0
-
-        for operation in historique:
-
-            if not operation:
-
-                continue
-
-            # -------------------------------------------------
-            # Chercher le type
-            # -------------------------------------------------
-
-            type_operation = None
-
-            for valeur in operation:
-
-                if valeur is None:
-
-                    continue
-
-                texte = (
-                    str(valeur)
-                    .strip()
-                    .upper()
-                )
-
-                if texte in (
-                    "ENTREE",
-                    "ENTRÉE",
-                    "ENTREES",
-                    "ENTRÉES"
-                ):
-
-                    type_operation = "ENTREE"
-
-                    break
-
-                if texte in (
-                    "SORTIE",
-                    "SORTIES"
-                ):
-
-                    type_operation = "SORTIE"
-
-                    break
-
-            # -------------------------------------------------
-            # Chercher la quantité
-            # -------------------------------------------------
-
-            quantite = 0
-
-            for valeur in operation:
-
-                if valeur is None:
-
-                    continue
-
-                try:
-
-                    nombre = float(
-                        str(valeur)
-                        .replace(",", ".")
-                        .strip()
-                    )
-
-                    if nombre >= 0:
-
-                        quantite = nombre
-
-                except (
-                    ValueError,
-                    TypeError
-                ):
-
-                    continue
-
-            # -------------------------------------------------
-            # Addition
-            # -------------------------------------------------
-
-            if type_operation == "ENTREE":
-
-                total_entrees += quantite
-
-            elif type_operation == "SORTIE":
-
-                total_sorties += quantite
-
-        # =====================================================
-        # AFFICHAGE TOTAUX
-        # =====================================================
-
-        if self.lblTotalEntrees is not None:
-
-            self.lblTotalEntrees.setText(
-                f"Total Entrées : {total_entrees:g}"
-            )
-
-        if self.lblTotalSorties is not None:
-
-            self.lblTotalSorties.setText(
-                f"Total Sorties : {total_sorties:g}"
-            )
-
-        print(
-            "TOTAL ENTREES =",
-            total_entrees
-        )
-
-        print(
-            "TOTAL SORTIES =",
-            total_sorties
-        )
+            if self.lblTotalSorties is not None:
+                self.lblTotalSorties.setText("")
+        except Exception:
+            pass
 
     # =========================================================
     # FERMER

@@ -21,7 +21,7 @@ app = QApplication(sys.argv)
 loader = QUiLoader()
 
 ui_file = QFile(
-    "ui/stock_movement.ui"
+    "ui/history.ui"
 )
 
 ui_file.open(

@@ -1328,13 +1328,121 @@ QHeaderView::section {
 
 
     <!-- ================================================= -->
+    <!-- TABLEAUX DU BAS -->
+    <!-- ================================================= -->
+
+    <widget class="QTableWidget" name="tableGasoilVehicules">
+
+     <property name="geometry">
+      <rect><x>28</x><y>650</y><width>520</width><height>110</height></rect>
+     </property>
+
+     <property name="columnCount">
+      <number>3</number>
+     </property>
+
+     <property name="rowCount">
+      <number>0</number>
+     </property>
+
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+
+     <property name="styleSheet">
+      <string notr="true">
+QTableWidget {
+    background-color: white;
+    border: 1px solid #E5E7EB;
+    border-radius: 10px;
+    gridline-color: #E5E7EB;
+    font-size: 13px;
+}
+
+QHeaderView::section {
+    background-color: #F3F4F6;
+    color: #374151;
+    font-weight: bold;
+    padding: 8px;
+    border: none;
+}
+      </string>
+     </property>
+
+     <column>
+      <property name="text"><string>Matricule</string></property>
+     </column>
+
+     <column>
+      <property name="text"><string>Opérations</string></property>
+     </column>
+
+     <column>
+      <property name="text"><string>Total Gasoil</string></property>
+     </column>
+
+    </widget>
+
+    <widget class="QTableWidget" name="tableVehicules">
+
+     <property name="geometry">
+      <rect><x>560</x><y>650</y><width>520</width><height>110</height></rect>
+     </property>
+
+     <property name="columnCount">
+      <number>3</number>
+     </property>
+
+     <property name="rowCount">
+      <number>0</number>
+     </property>
+
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+
+     <property name="styleSheet">
+      <string notr="true">
+QTableWidget {
+    background-color: white;
+    border: 1px solid #E5E7EB;
+    border-radius: 10px;
+    gridline-color: #E5E7EB;
+    font-size: 13px;
+}
+
+QHeaderView::section {
+    background-color: #F3F4F6;
+    color: #374151;
+    font-weight: bold;
+    padding: 8px;
+    border: none;
+}
+      </string>
+     </property>
+
+     <column>
+      <property name="text"><string>Véhicule</string></property>
+     </column>
+
+     <column>
+      <property name="text"><string>Nombre opérations</string></property>
+     </column>
+
+     <column>
+      <property name="text"><string>Total Gasoil</string></property>
+     </column>
+
+    </widget>
+
+    <!-- ================================================= -->
     <!-- STATUS -->
     <!-- ================================================= -->
 
     <widget class="QFrame" name="frameStatus">
 
      <property name="geometry">
-      <rect><x>28</x><y>665</y><width>1002</width><height>28</height></rect>
+      <rect><x>28</x><y>780</y><width>1002</width><height>28</height></rect>
      </property>
 
      <property name="styleSheet">
@@ -1353,7 +1461,7 @@ QHeaderView::section {
 
      <widget class="QLabel" name="lblStatusConnexion">
       <property name="geometry">
-       <rect><x>320</x><y>5</y><width>200</width><height>18px</height></rect>
+       <rect><x>320</x><y>5</y><width>200</width><height>18</height></rect>
       </property>
       <property name="styleSheet">
        <string notr="true">font-size:8px;color:#16A34A;font-weight:bold;</string>
@@ -1363,7 +1471,7 @@ QHeaderView::section {
 
      <widget class="QLabel" name="lblVersion">
       <property name="geometry">
-       <rect><x>850</x><y>5</y><width>150</width><height>18px</height></rect>
+       <rect><x>850</x><y>5</y><width>150</width><height>18</height></rect>
       </property>
       <property name="styleSheet">
        <string notr="true">font-size:8px;color:#64748B;</string>
@@ -1377,16 +1485,16 @@ QHeaderView::section {
     </widget>
 
    </widget>
-
   </widget>
-
-  <action name="actionDashboard">
-   <property name="text">
-    <string>Dashboard</string>
-   </property>
-  </action>
-
  </widget>
+
+ <customwidgets>
+  <customwidget>
+   <class>QChartView</class>
+   <extends>QGraphicsView</extends>
+   <header>PySide6.QtCharts</header>
+  </customwidget>
+ </customwidgets>
 
  <resources/>
 

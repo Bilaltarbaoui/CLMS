@@ -69,6 +69,29 @@ class HistoryController:
         )
 
     # =====================================================
+    # FILTRE PAR MODULE
+    # =====================================================
+
+    def get_history_module(self, module_name):
+
+        print(
+            ">>> CONTROLLER : FILTRE MODULE =",
+            module_name
+        )
+
+        return self.model.get_history_module(
+            module_name
+        )
+
+    # =====================================================
+    # LISTER MODULES DISTINCTS
+    # =====================================================
+
+    def get_modules_list(self):
+
+        return self.model.get_modules_list()
+
+    # =====================================================
     # FERMER
     # =====================================================
 

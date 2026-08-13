@@ -22,3 +22,16 @@ class InventoryController:
     def rechercher(self, mot):
 
         return self.model.rechercher(mot)
+
+    # =====================================================
+    # FERMER
+    # =====================================================
+
+    def close(self):
+
+        if getattr(self, 'model', None) and hasattr(self.model, 'close'):
+
+            try:
+                self.model.close()
+            except Exception:
+                pass

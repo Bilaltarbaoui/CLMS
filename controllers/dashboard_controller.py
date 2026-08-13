@@ -46,3 +46,16 @@ class DashboardController:
     def get_derniers_mouvements(self):
 
         return self.model.get_derniers_mouvements()
+
+    # =====================================================
+    # FERMER
+    # =====================================================
+
+    def close(self):
+
+        if getattr(self, 'model', None) and hasattr(self.model, 'close'):
+
+            try:
+                self.model.close()
+            except Exception:
+                pass

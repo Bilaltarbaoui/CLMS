@@ -44,6 +44,13 @@ class GasoilController:
             quantite,
             observation
         )
+        try:
+            from database.database import Database as _DB
+            db = _DB()
+            desc = f"Opération gasoil {quantite}L pour véhicule {vehicule}"
+            db.ajouter_historique("SYSTEM", "CREATE", "Gasoil", desc)
+        except Exception:
+            pass
 
     # =====================================================
     # AFFICHER OPERATIONS GASOIL
@@ -52,6 +59,29 @@ class GasoilController:
     def get_all(self):
 
         return self.model.get_all()
+
+    # =====================================================
+    # RECHERCHER DANS LES OPERATIONS GASOIL
+    # =====================================================
+
+    def rechercher(self, mot):
+        """Search gasoil operations by vehicule, date, or observation"""
+        if mot is None:
+            return self.get_all()
+
+        m = str(mot).lower()
+        results = []
+        for op in self.model.get_all():
+            # op: (id, vehicule, date_operation, heure_operation, kilometrage, quantite, observation)
+            hay = ' '.join([
+                str(op[1] or ''),  # vehicule
+                str(op[2] or ''),  # date_operation
+                str(op[6] or '')   # observation
+            ]).lower()
+            if m in hay:
+                results.append(op)
+
+        return results
 
     # =====================================================
     # VEHICULES
@@ -123,6 +153,13 @@ class GasoilController:
             quantite,
             observation
         )
+        try:
+            from database.database import Database as _DB
+            db = _DB()
+            desc = f"Opération gasoil modifiée id={id_operation} véhicule={vehicule} qty={quantite}"
+            db.ajouter_historique("SYSTEM", "UPDATE", "Gasoil", desc)
+        except Exception:
+            pass
 
     # =====================================================
     # SUPPRIMER
@@ -133,9 +170,26 @@ class GasoilController:
         id_operation
     ):
 
+        # Attempt to fetch operation info before deletion
+        try:
+            op = next((o for o in self.get_all() if o[0] == id_operation), None)
+            vehicule = op[1] if op else ''
+            quantite = op[5] if op else ''
+        except Exception:
+            vehicule = ''
+            quantite = ''
+
         self.model.supprimer(
             id_operation
         )
+
+        try:
+            from database.database import Database as _DB
+            db = _DB()
+            desc = f"Opération gasoil supprimée id={id_operation} véhicule={vehicule} qty={quantite}"
+            db.ajouter_historique("SYSTEM", "DELETE", "Gasoil", desc)
+        except Exception:
+            pass
 
     # =====================================================
     # FERMER

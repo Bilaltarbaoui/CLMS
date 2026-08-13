@@ -1,4 +1,5 @@
 from models.product_model import ProductModel
+from database.database import Database
 
 
 class ProductController:
@@ -43,6 +44,13 @@ class ProductController:
             date_reception,
             date_livraison
         )
+        # Log history
+        try:
+            db = Database()
+            desc = f"Produit {reference} - {nom} créé"
+            db.ajouter_historique("SYSTEM", "CREATE", "Produit", desc)
+        except Exception:
+            pass
 
     # =====================================================
     # AFFICHER TOUS LES PRODUITS
@@ -51,6 +59,19 @@ class ProductController:
     def get_all_products(self):
 
         return self.model.get_all_products()
+
+    # =====================================================
+    # FERMER
+    # =====================================================
+
+    def close(self):
+
+        if getattr(self, 'model', None) and hasattr(self.model, 'close'):
+
+            try:
+                self.model.close()
+            except Exception:
+                pass
 
     # =====================================================
     # COMPATIBILITE DASHBOARD
@@ -100,6 +121,13 @@ class ProductController:
             date_reception,
             date_livraison
         )
+        # Log history
+        try:
+            db = Database()
+            desc = f"Produit {reference} - {nom} modifié (id={id_produit})"
+            db.ajouter_historique("SYSTEM", "UPDATE", "Produit", desc)
+        except Exception:
+            pass
 
     # =====================================================
     # SUPPRIMER PRODUIT
@@ -110,9 +138,27 @@ class ProductController:
         id_produit
     ):
 
+        # Fetch product info for description
+        try:
+            # Attempt to read product before deletion for description
+            prod = next((p for p in self.get_all_products() if p[0] == id_produit), None)
+            reference = prod[1] if prod else ''
+            nom = prod[2] if prod else ''
+        except Exception:
+            reference = ''
+            nom = ''
+
         self.model.supprimer_produit(
             id_produit
         )
+
+        # Log history
+        try:
+            db = Database()
+            desc = f"Produit {reference} - {nom} supprimé (id={id_produit})"
+            db.ajouter_historique("SYSTEM", "DELETE", "Produit", desc)
+        except Exception:
+            pass
 
     # =====================================================
     # RECHERCHE PRODUIT
