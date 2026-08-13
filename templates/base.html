@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{ title if title else 'CLMS' }}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/clients.css">
+  </head>
+  <body>
+    <div class="page-wrapper">
+      <aside class="sidebar">
+        <div class="brand">CLMS</div>
+        <nav>
+          <a href="/" class="nav-link {{ 'active' if active == 'dashboard' else '' }}">Dashboard</a>
+          {% if current_role in ['admin', 'responsable'] %}
+            <a href="/clients" class="nav-link {{ 'active' if active == 'clients' else '' }}">Clients</a>
+          {% endif %}
+
+          {% if current_role in ['admin', 'responsable', 'magasinier'] %}
+            <a href="/produits" class="nav-link {{ 'active' if active == 'produits' else '' }}">Produits</a>
+            <a href="/entrees" class="nav-link {{ 'active' if active == 'entrees' else '' }}">Entrées</a>
+            <a href="/sorties" class="nav-link {{ 'active' if active == 'sorties' else '' }}">Sorties</a>
+          {% endif %}
+
+          {% if current_role in ['admin', 'responsable'] %}
+            <a href="/vehicules" class="nav-link {{ 'active' if active == 'vehicules' else '' }}">Véhicules</a>
+            <a href="/gasoil" class="nav-link {{ 'active' if active == 'gasoil' else '' }}">Gasoil</a>
+          {% endif %}
+
+          {% if current_role in ['admin', 'responsable', 'magasinier'] %}
+            <a href="/historique" class="nav-link {{ 'active' if active == 'historique' else '' }}">Historique</a>
+          {% endif %}
+
+          {% if current_role == 'admin' %}
+            <a href="/parametres" class="nav-link {{ 'active' if active == 'parametres' else '' }}">Paramètres</a>
+            <a href="/gestion-utilisateurs" class="nav-link {{ 'active' if active == 'parametres' else '' }}">Gestion des utilisateurs</a>
+          {% endif %}
+          <a href="/a-propos" class="nav-link {{ 'active' if active == 'a_propos' else '' }}">À propos</a>
+        </nav>
+      </aside>
+      <main class="main-content">
+        <header class="topbar">
+          <div class="topbar-title">{{ title if title else 'Dashboard' }}</div>
+          <div class="topbar-user">
+            {% if session.get('username') %}
+              <span class="username">{{ session.get('username') }}</span>
+              <a href="{{ url_for('logout') }}" class="logout-link">Déconnexion</a>
+            {% endif %}
+          </div>
+        </header>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div class="flash-messages">
+              {% for category, message in messages %}
+                <div class="flash-message {{ category }}">{{ message }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        <section class="content">
+          {% block content %}
+          <div class="placeholder">
+            <h2>{{ title if title else 'CLMS' }}</h2>
+            <p>Page en construction.</p>
+          </div>
+          {% endblock %}
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
