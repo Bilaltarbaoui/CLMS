@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="gasoil-header">
+    <form method="get" action="{{ url_for('gasoil') }}" class="search-form">
+      <label for="q">Recherche</label>
+      <input id="q" name="q" type="search" value="{{ query or '' }}" placeholder="Véhicule, date, observation">
+      <button type="submit" class="button primary">Rechercher</button>
+      <a href="{{ url_for('gasoil') }}" class="button secondary">Actualiser</a>
+    </form>
+  </div>
+
+  <div class="gasoil-grid">
+    <section class="gasoil-list">
+      <div class="panel-header">Opérations gasoil</div>
+      <div class="table-scroll">
+        <table class="table-full">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Véhicule</th>
+              <th>Date</th>
+              <th>Heure</th>
+              <th>Kilométrage</th>
+              <th>Quantité</th>
+              <th>Observation</th>
+              <th class="actions-col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for op in operations %}
+              <tr>
+                <td>{{ op[0] }}</td>
+                <td>{{ op[1] }}</td>
+                <td>{{ op[2] }}</td>
+                <td>{{ op[3] }}</td>
+                <td>{{ op[4] }}</td>
+                <td>{{ op[5] }}</td>
+                <td>{{ op[6] }}</td>
+                <td class="actions-cell">
+                  <a href="{{ url_for('gasoil', edit_id=op[0]) }}" class="button small">Modifier</a>
+                  <form method="post" action="{{ url_for('delete_gasoil', id_operation=op[0]) }}" class="inline-form" onsubmit="return confirm('Supprimer cette opération ?');">
+                    <button type="submit" class="button danger small">Supprimer</button>
+                  </form>
+                </td>
+              </tr>
+            {% else %}
+              <tr>
+                <td colspan="8" class="empty-row">Aucune opération gasoil.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <aside class="gasoil-form-panel">
+      <div class="panel-header">{{ 'Modifier l\'opération' if selected_operation else 'Ajouter une opération' }}</div>
+      <form method="post" action="{% if selected_operation %}{{ url_for('edit_gasoil', id_operation=selected_operation[0]) }}{% else %}{{ url_for('add_gasoil') }}{% endif %}" class="gasoil-form">
+        <label for="vehicule">Véhicule</label>
+        <select id="vehicule" name="vehicule">
+          {% for v in vehicules %}
+            <option value="{{ v[0] }}" {% if selected_operation and selected_operation[1] == v[0] %}selected{% endif %}>{{ v[1] if v|length>1 else v[0] }}</option>
+          {% endfor %}
+        </select>
+
+        <label for="date_operation">Date</label>
+        <input id="date_operation" name="date_operation" type="text" value="{{ selected_operation[2] if selected_operation else '' }}" required>
+
+        <label for="heure_operation">Heure</label>
+        <input id="heure_operation" name="heure_operation" type="text" value="{{ selected_operation[3] if selected_operation else '' }}" required>
+
+        <label for="kilometrage">Kilométrage</label>
+        <input id="kilometrage" name="kilometrage" type="number" step="any" value="{{ selected_operation[4] if selected_operation else '' }}">
+
+        <label for="quantite">Quantité</label>
+        <input id="quantite" name="quantite" type="number" step="any" value="{{ selected_operation[5] if selected_operation else '' }}" required>
+
+        <label for="observation">Observation</label>
+        <input id="observation" name="observation" type="text" value="{{ selected_operation[6] if selected_operation else '' }}">
+
+        <div class="form-actions">
+          <button type="submit" class="button primary">{{ 'Mettre à jour' if selected_operation else 'Ajouter' }}</button>
+          {% if selected_operation %}
+            <a href="{{ url_for('gasoil') }}" class="button secondary">Annuler</a>
+          {% endif %}
+        </div>
+      </form>
+    </aside>
+  </div>
+{% endblock %}

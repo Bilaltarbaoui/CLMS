@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="vehicles-header">
+    <form method="get" action="{{ url_for('vehicules') }}" class="search-form">
+      <label for="q">Recherche</label>
+      <input id="q" name="q" type="search" value="{{ query or '' }}" placeholder="Matricule, marque, modèle">
+      <button type="submit" class="button primary">Rechercher</button>
+      <a href="{{ url_for('vehicules') }}" class="button secondary">Actualiser</a>
+    </form>
+  </div>
+
+  <div class="vehicles-grid">
+    <section class="vehicles-list">
+      <div class="panel-header">Liste des véhicules</div>
+      <div class="table-scroll">
+        <table class="table-full vehicles-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Matricule</th>
+              <th>Type</th>
+              <th>Marque</th>
+              <th>Modèle</th>
+              <th>Kilométrage</th>
+              <th>État</th>
+              <th class="actions-col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for v in vehicules %}
+              <tr>
+                <td>{{ v[0] }}</td>
+                <td>{{ v[1] }}</td>
+                <td>{{ v[2] }}</td>
+                <td>{{ v[3] }}</td>
+                <td>{{ v[4] }}</td>
+                <td>{{ v[5] }}</td>
+                <td>{{ v[6] }}</td>
+                <td class="actions-cell">
+                  <a href="{{ url_for('vehicules', edit_id=v[0]) }}" class="button small">Modifier</a>
+                  <form method="post" action="{{ url_for('delete_vehicule', id_vehicule=v[0]) }}" class="inline-form" onsubmit="return confirm('Supprimer ce véhicule ?');">
+                    <button type="submit" class="button danger small">Supprimer</button>
+                  </form>
+                </td>
+              </tr>
+            {% else %}
+              <tr>
+                <td colspan="8" class="empty-row">Aucun véhicule trouvé.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <aside class="vehicles-form-panel">
+      <div class="panel-header">{{ 'Modifier le véhicule' if selected_vehicle else 'Ajouter un véhicule' }}</div>
+      <form method="post" action="{% if selected_vehicle %}{{ url_for('edit_vehicule', id_vehicule=selected_vehicle[0]) }}{% else %}{{ url_for('add_vehicule') }}{% endif %}" class="vehicle-form">
+        <label for="matricule">Matricule</label>
+        <input id="matricule" name="matricule" type="text" value="{{ selected_vehicle[1] if selected_vehicle else '' }}" required>
+
+        <label for="type">Type</label>
+        <input id="type" name="type" type="text" value="{{ selected_vehicle[2] if selected_vehicle else '' }}">
+
+        <label for="marque">Marque</label>
+        <input id="marque" name="marque" type="text" value="{{ selected_vehicle[3] if selected_vehicle else '' }}">
+
+        <label for="modele">Modèle</label>
+        <input id="modele" name="modele" type="text" value="{{ selected_vehicle[4] if selected_vehicle else '' }}">
+
+        <label for="kilometrage">Kilométrage</label>
+        <input id="kilometrage" name="kilometrage" type="number" value="{{ selected_vehicle[5] if selected_vehicle else 0 }}">
+
+        <label for="etat">État</label>
+        <input id="etat" name="etat" type="text" value="{{ selected_vehicle[6] if selected_vehicle else '' }}">
+
+        <label for="observation">Observation</label>
+        <input id="observation" name="observation" type="text" value="{{ selected_vehicle[7] if selected_vehicle else '' }}">
+
+        <div class="form-actions">
+          <button type="submit" class="button primary">{{ 'Mettre à jour' if selected_vehicle else 'Ajouter' }}</button>
+          {% if selected_vehicle %}
+            <a href="{{ url_for('vehicules') }}" class="button secondary">Annuler</a>
+          {% endif %}
+        </div>
+      </form>
+    </aside>
+  </div>
+{% endblock %}

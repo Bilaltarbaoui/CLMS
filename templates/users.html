@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Gestion des utilisateurs</h1>
+<p><a href="{{ url_for('users_add') }}" class="button">Ajouter utilisateur</a></p>
+<table class="table-full">
+  <thead>
+    <tr>
+      <th>Nom d'utilisateur</th>
+      <th>Nom complet</th>
+      <th>Rôle</th>
+      <th>Actif</th>
+      <th>Date de création</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for u in users %}
+    <tr>
+      <td>{{ u.username }}</td>
+      <td>{{ u.nom_complet or '' }}</td>
+      <td>{{ u.role }}</td>
+      <td>{{ 'Oui' if u.actif else 'Non' }}</td>
+      <td>{{ u.date_creation or '' }}</td>
+      <td>
+        <a href="{{ url_for('users_edit', user_id=u.id) }}">Modifier</a>
+        |
+        <form action="{{ url_for('users_toggle_active', user_id=u.id) }}" method="post" style="display:inline">
+          <button type="submit">{{ 'Désactiver' if u.actif else 'Activer' }}</button>
+        </form>
+        |
+        <a href="{{ url_for('users_change_password', user_id=u.id) }}">Changer mot de passe</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

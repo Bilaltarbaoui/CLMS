@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="clients-header">
+    <form method="get" action="{{ url_for('clients') }}" class="search-form">
+      <label for="q">Recherche</label>
+      <input id="q" name="q" type="search" value="{{ query or '' }}" placeholder="Nom, téléphone, email ou ville">
+      <button type="submit" class="button primary">Rechercher</button>
+      <a href="{{ url_for('clients') }}" class="button secondary">Actualiser</a>
+    </form>
+  </div>
+
+  <div class="clients-grid">
+    <section class="clients-list">
+      <div class="panel-header">Liste des clients</div>
+      <div class="table-scroll">
+        <table class="table-full clients-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nom</th>
+              <th>Téléphone</th>
+              <th>Adresse</th>
+              <th>Email</th>
+              <th>Ville</th>
+              <th>Date création</th>
+              <th class="actions-col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for client in clients %}
+              <tr>
+                <td>{{ client[0] }}</td>
+                <td>{{ client[1] }}</td>
+                <td>{{ client[2] }}</td>
+                <td>{{ client[3] }}</td>
+                <td>{{ client[4] }}</td>
+                <td>{{ client[5] }}</td>
+                <td>{{ client[6] }}</td>
+                <td class="actions-cell">
+                  <a href="{{ url_for('clients', edit_id=client[0]) }}" class="button small">Modifier</a>
+                  <form method="post" action="{{ url_for('delete_client', id_client=client[0]) }}" class="inline-form" onsubmit="return confirm('Supprimer ce client ?');">
+                    <button type="submit" class="button danger small">Supprimer</button>
+                  </form>
+                </td>
+              </tr>
+            {% else %}
+              <tr>
+                <td colspan="8" class="empty-row">Aucun client trouvé.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <aside class="clients-form-panel">
+      <div class="panel-header">{{ 'Modifier le client' if selected_client else 'Ajouter un client' }}</div>
+      <form method="post" action="{% if selected_client %}{{ url_for('edit_client', id_client=selected_client[0]) }}{% else %}{{ url_for('add_client') }}{% endif %}" class="client-form">
+        <label for="nom">Nom</label>
+        <input id="nom" name="nom" type="text" value="{{ selected_client[1] if selected_client else '' }}" required>
+
+        <label for="telephone">Téléphone</label>
+        <input id="telephone" name="telephone" type="text" value="{{ selected_client[2] if selected_client else '' }}">
+
+        <label for="adresse">Adresse</label>
+        <input id="adresse" name="adresse" type="text" value="{{ selected_client[3] if selected_client else '' }}">
+
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" value="{{ selected_client[4] if selected_client else '' }}">
+
+        <label for="ville">Ville</label>
+        <input id="ville" name="ville" type="text" value="{{ selected_client[5] if selected_client else '' }}">
+
+        <div class="form-actions">
+          <button type="submit" class="button primary">{{ 'Mettre à jour' if selected_client else 'Ajouter' }}</button>
+          {% if selected_client %}
+            <a href="{{ url_for('clients') }}" class="button secondary">Annuler</a>
+          {% endif %}
+        </div>
+      </form>
+    </aside>
+  </div>
+{% endblock %}

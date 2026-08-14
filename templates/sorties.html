@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="entries-header">
+    <div class="search-form">
+      <h1>Sorties</h1>
+    </div>
+  </div>
+
+  <div class="entries-grid">
+    <section class="entries-list">
+      <div class="panel-header">Liste des sorties</div>
+      <div class="table-scroll">
+        <table class="table-full entries-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Référence</th>
+              <th>Nom</th>
+              <th>Quantité</th>
+              <th>Client</th>
+              <th>Numéro bon</th>
+              <th>Date sortie</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for s in sorties %}
+              <tr>
+                <td>{{ s[0] }}</td>
+                <td>{{ s[1] }}</td>
+                <td>{{ s[2] }}</td>
+                <td>{{ s[3] }}</td>
+                <td>{{ s[4] }}</td>
+                <td>{{ s[5] }}</td>
+                <td>{{ s[6] }}</td>
+              </tr>
+            {% else %}
+              <tr><td colspan="7" class="empty-row">Aucune sortie trouvée.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <aside class="entries-form-panel">
+      <div class="panel-header">Ajouter une sortie</div>
+      <form method="post" action="{{ url_for('add_sortie') }}" class="entry-form">
+        <label for="product_id">Produit</label>
+        <select id="product_id" name="product_id">
+          {% for p in produits %}
+            <option value="{{ p[0] }}">{{ p[1] }} - {{ p[2] }}</option>
+          {% endfor %}
+        </select>
+
+        <label for="quantite">Quantité</label>
+        <input id="quantite" name="quantite" type="number" value="1" min="1" required>
+
+        <label for="client">Client</label>
+        <input id="client" name="client" type="text" value="">
+
+        <label for="numero_bon">Numéro bon</label>
+        <input id="numero_bon" name="numero_bon" type="text" value="">
+
+        <label for="commentaire">Commentaire</label>
+        <input id="commentaire" name="commentaire" type="text" value="">
+
+        <div class="form-actions">
+          <button type="submit" class="button primary">Ajouter</button>
+        </div>
+      </form>
+    </aside>
+  </div>
+{% endblock %}

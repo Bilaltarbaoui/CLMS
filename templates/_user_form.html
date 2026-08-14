@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{ title }}</h1>
+<form method="post">
+  {% if not change_password %}
+  <label>Nom d'utilisateur</label>
+  {% if user %}
+    <input type="text" name="username" value="{{ user.username }}" readonly>
+  {% else %}
+    <input type="text" name="username" required>
+  {% endif %}
+
+  <label>Nom complet</label>
+  <input type="text" name="nom_complet" value="{{ user.nom_complet if user else '' }}">
+
+  <label>Rôle</label>
+  <select name="role">
+    {% for r in ['admin','responsable','magasinier'] %}
+      <option value="{{ r }}" {% if user and user.role==r %}selected{% endif %}>{{ r }}</option>
+    {% endfor %}
+  </select>
+
+  <label>Actif</label>
+  <input type="checkbox" name="actif" {% if user and user.actif %}checked{% endif %}>
+
+  {% if not user %}
+    <label>Mot de passe</label>
+    <input type="password" name="password" required>
+    <label>Confirmer mot de passe</label>
+    <input type="password" name="confirm" required>
+  {% endif %}
+
+  <button type="submit">Enregistrer</button>
+  {% else %}
+    <label>Nouveau mot de passe</label>
+    <input type="password" name="password" required>
+    <label>Confirmer</label>
+    <input type="password" name="confirm" required>
+    <button type="submit">Changer le mot de passe</button>
+  {% endif %}
+</form>
+{% endblock %}

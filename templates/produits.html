@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="products-header">
+    <form method="get" action="{{ url_for('produits') }}" class="search-form">
+      <label for="q">Recherche</label>
+      <input id="q" name="q" type="search" value="{{ query or '' }}" placeholder="Référence, nom, catégorie, marque, fournisseur">
+      <button type="submit" class="button primary">Rechercher</button>
+      <a href="{{ url_for('produits') }}" class="button secondary">Actualiser</a>
+    </form>
+  </div>
+
+  <div class="products-grid">
+    <section class="products-list">
+      <div class="panel-header">Liste des produits</div>
+      <div class="table-scroll">
+        <table class="table-full products-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Référence</th>
+              <th>Nom</th>
+              <th>Catégorie</th>
+              <th>Marque</th>
+              <th>Unité</th>
+              <th>Stock</th>
+              <th>Stock min</th>
+              <th>N° lot</th>
+              <th>DLC</th>
+              <th>Fournisseur</th>
+              <th>Description</th>
+              <th>Date création</th>
+              <th>Date réception</th>
+              <th>Date livraison</th>
+              <th class="actions-col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for produit in produits %}
+              <tr>
+                <td>{{ produit[0] }}</td>
+                <td>{{ produit[1] }}</td>
+                <td>{{ produit[2] }}</td>
+                <td>{{ produit[3] }}</td>
+                <td>{{ produit[4] }}</td>
+                <td>{{ produit[5] }}</td>
+                <td>{{ produit[6] }}</td>
+                <td>{{ produit[7] }}</td>
+                <td>{{ produit[8] }}</td>
+                <td>{{ produit[9] }}</td>
+                <td>{{ produit[10] }}</td>
+                <td>{{ produit[11] }}</td>
+                <td>{{ produit[12] }}</td>
+                <td>{{ produit[13] }}</td>
+                <td>{{ produit[14] }}</td>
+                <td class="actions-cell">
+                  <a href="{{ url_for('produits', edit_id=produit[0]) }}" class="button small">Modifier</a>
+                  <form method="post" action="{{ url_for('delete_produit', id_produit=produit[0]) }}" class="inline-form" onsubmit="return confirm('Supprimer ce produit ?');">
+                    <button type="submit" class="button danger small">Supprimer</button>
+                  </form>
+                </td>
+              </tr>
+            {% else %}
+              <tr>
+                <td colspan="16" class="empty-row">Aucun produit trouvé.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <aside class="products-form-panel">
+      <div class="panel-header">{{ 'Modifier le produit' if selected_product else 'Ajouter un produit' }}</div>
+      <form method="post" action="{% if selected_product %}{{ url_for('edit_produit', id_produit=selected_product[0]) }}{% else %}{{ url_for('add_produit') }}{% endif %}" class="product-form">
+        <label for="reference">Référence</label>
+        <input id="reference" name="reference" type="text" value="{{ selected_product[1] if selected_product else '' }}">
+
+        <label for="nom">Nom</label>
+        <input id="nom" name="nom" type="text" value="{{ selected_product[2] if selected_product else '' }}" required>
+
+        <label for="categorie">Catégorie</label>
+        <input id="categorie" name="categorie" type="text" value="{{ selected_product[3] if selected_product else '' }}">
+
+        <label for="marque">Marque</label>
+        <input id="marque" name="marque" type="text" value="{{ selected_product[4] if selected_product else '' }}">
+
+        <label for="unite">Unité</label>
+        <input id="unite" name="unite" type="text" value="{{ selected_product[5] if selected_product else '' }}">
+
+        <label for="stock">Stock</label>
+        <input id="stock" name="stock" type="number" value="{{ selected_product[6] if selected_product else 0 }}">
+
+        <label for="stock_min">Stock min</label>
+        <input id="stock_min" name="stock_min" type="number" value="{{ selected_product[7] if selected_product else 0 }}">
+
+        <label for="numero_lot">N° lot</label>
+        <input id="numero_lot" name="numero_lot" type="text" value="{{ selected_product[8] if selected_product else '' }}">
+
+        <label for="dlc">DLC</label>
+        <input id="dlc" name="dlc" type="text" value="{{ selected_product[9] if selected_product else '' }}">
+
+        <label for="fournisseur">Fournisseur</label>
+        <input id="fournisseur" name="fournisseur" type="text" value="{{ selected_product[10] if selected_product else '' }}">
+
+        <label for="description">Description</label>
+        <input id="description" name="description" type="text" value="{{ selected_product[11] if selected_product else '' }}">
+
+        <label for="date_reception">Date réception</label>
+        <input id="date_reception" name="date_reception" type="text" value="{{ selected_product[13] if selected_product else '' }}">
+
+        <label for="date_livraison">Date livraison</label>
+        <input id="date_livraison" name="date_livraison" type="text" value="{{ selected_product[14] if selected_product else '' }}">
+
+        <div class="form-actions">
+          <button type="submit" class="button primary">{{ 'Mettre à jour' if selected_product else 'Ajouter' }}</button>
+          {% if selected_product %}
+            <a href="{{ url_for('produits') }}" class="button secondary">Annuler</a>
+          {% endif %}
+        </div>
+      </form>
+    </aside>
+  </div>
+{% endblock %}

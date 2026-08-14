@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="entries-header">
+    <form method="get" action="{{ url_for('entrees') }}" class="search-form">
+      <label for="q">Recherche</label>
+      <input id="q" name="q" type="search" value="{{ query or '' }}" placeholder="Référence, nom, fournisseur, bon">
+      <button type="submit" class="button primary">Rechercher</button>
+      <a href="{{ url_for('entrees') }}" class="button secondary">Actualiser</a>
+    </form>
+  </div>
+
+  <div class="entries-grid">
+    <section class="entries-list">
+      <div class="panel-header">Liste des entrées</div>
+      <div class="table-scroll">
+        <table class="table-full entries-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Référence</th>
+              <th>Nom</th>
+              <th>Quantité</th>
+              <th>Fournisseur</th>
+              <th>Numéro bon</th>
+              <th>Commentaire</th>
+              <th>Date réception</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for e in entrees %}
+              <tr>
+                <td>{{ e[0] }}</td>
+                <td>{{ e[1] }}</td>
+                <td>{{ e[2] }}</td>
+                <td>{{ e[3] }}</td>
+                <td>{{ e[4] }}</td>
+                <td>{{ e[5] }}</td>
+                <td>{{ e[6] }}</td>
+                <td>{{ e[7] }}</td>
+              </tr>
+            {% else %}
+              <tr><td colspan="8" class="empty-row">Aucune entrée trouvée.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <aside class="entries-form-panel">
+      <div class="panel-header">Ajouter une entrée</div>
+      <form method="post" action="{{ url_for('add_entree') }}" class="entry-form">
+        <label for="product_id">Produit</label>
+        <select id="product_id" name="product_id">
+          {% for p in produits %}
+            <option value="{{ p[0] }}">{{ p[1] }} - {{ p[2] }}</option>
+          {% endfor %}
+        </select>
+
+        <label for="quantite">Quantité</label>
+        <input id="quantite" name="quantite" type="number" value="1" min="1" required>
+
+        <label for="fournisseur">Fournisseur</label>
+        <input id="fournisseur" name="fournisseur" type="text" value="">
+
+        <label for="numero_bon">Numéro bon</label>
+        <input id="numero_bon" name="numero_bon" type="text" value="">
+
+        <label for="commentaire">Commentaire</label>
+        <input id="commentaire" name="commentaire" type="text" value="">
+
+        <div class="form-actions">
+          <button type="submit" class="button primary">Ajouter</button>
+        </div>
+      </form>
+    </aside>
+  </div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Historique des opérations</h2>
+
+  <form method="get" class="history-filters" action="{{ url_for('historique') }}">
+    <input type="search" name="q" placeholder="Rechercher..." value="{{ query or '' }}">
+    <select name="type">
+      <option value="Tous">Tous</option>
+      <option value="Entrées" {% if request.args.get('type') == 'Entrées' %}selected{% endif %}>Entrées</option>
+      <option value="Sorties" {% if request.args.get('type') == 'Sorties' %}selected{% endif %}>Sorties</option>
+    </select>
+    <select name="module">
+      <option value="">Tous les modules</option>
+      {% for module in modules %}
+        <option value="{{ module }}" {% if selected_module == module %}selected{% endif %}>{{ module }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit" class="button primary">Filtrer</button>
+    <a href="{{ url_for('historique') }}" class="button secondary">Reset</a>
+  </form>
+
+  <div class="table-scroll">
+    <table class="table-full">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Utilisateur</th>
+          <th>Type opération</th>
+          <th>Module</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for h in historique %}
+          <tr>
+            <td>{{ h[4] }}</td>
+            <td>{{ h[0] }}</td>
+            <td>{{ h[1] }}</td>
+            <td>{{ h[2] }}</td>
+            <td>{{ h[3] }}</td>
+          </tr>
+        {% else %}
+          <tr>
+            <td colspan="5">Aucun enregistrement.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+{% endblock %}

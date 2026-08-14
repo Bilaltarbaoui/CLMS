@@ -17,3 +17,11 @@ __pycache__/
 scripts/*_output.txt
 scripts/find_db_holders_out.txt
 database/*.db-journal
+
+# Audit reports and artifacts
+ARCHITECTURE_MAP.txt
+FINAL_AUDIT_REPORT.txt
+PHASE2_AUDIT_FINDINGS.txt
+PHASE2C_FK_ENFORCEMENT_REPORT.txt
+PHASE2_FUNCTIONAL_AUDIT_REPORT.txt
+check_db_modification.py
