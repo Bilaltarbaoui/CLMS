@@ -16,3 +16,4 @@ __pycache__/
 # Temporary test outputs
 scripts/*_output.txt
 scripts/find_db_holders_out.txt
+database/*.db-journal
