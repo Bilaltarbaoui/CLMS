@@ -29,6 +29,10 @@
         </form>
         |
         <a href="{{ url_for('users_change_password', user_id=u.id) }}">Changer mot de passe</a>
+        |
+        <form action="{{ url_for('users_delete', user_id=u.id) }}" method="post" style="display:inline" onsubmit="return confirm(&quot;Confirmer la suppression de l’utilisateur {{ u.username }} ?&quot;);">
+          <button type="submit">Supprimer utilisateur</button>
+        </form>
       </td>
     </tr>
     {% endfor %}

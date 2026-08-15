@@ -11,7 +11,7 @@ class ClientModel:
 
     def __init__(self):
         # Keep init lightweight: do not hold a persistent connection.
-        pass
+        self.DB_PATH = Database.resolve_db_path(self.DB_PATH)
 
     def _connect(self):
         return Database.get_safe_connection(self.DB_PATH)

@@ -72,6 +72,27 @@ def run():
         report('admin_gestion_utilisateurs', r.status_code == 200, f'status={r.status_code}')
         r = client.get('/parametres')
         report('admin_parametres', r.status_code == 200, f'status={r.status_code}')
+        r = client.get('/a-propos')
+        report('public_about', r.status_code == 200, f'status={r.status_code}')
+
+        # settings form behavior
+        r = client.post('/parametres', data={
+            'low_stock_threshold': '12',
+            'current_password': 'Pass123!',
+            'new_password': 'NewPass123!',
+            'confirm_password': 'NewPass123!'
+        }, follow_redirects=False)
+        report('admin_parametres_save', r.status_code in (200, 302), f'status={r.status_code}')
+
+        # invalid configuration rejected
+        r = client.post('/parametres', data={
+            'low_stock_threshold': '-5',
+            'current_password': 'NewPass123!',
+            'new_password': 'Another123!',
+            'confirm_password': 'Another123!'
+        }, follow_redirects=False)
+        report('admin_parametres_invalid_threshold', r.status_code in (200, 302), f'status={r.status_code}')
+
         client.get('/logout')
 
         # Responsable

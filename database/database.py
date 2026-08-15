@@ -9,11 +9,29 @@ import time
 
 class Database:
 
+    @staticmethod
+    def resolve_db_path(db_path: str = "database/clms.db") -> str:
+        """Return the runtime DB path, honoring CLMS_TEST_DB_PATH for tests."""
+        test_db_path = os.environ.get("CLMS_TEST_DB_PATH", "").strip()
+        if test_db_path:
+            resolved = test_db_path
+            if not os.path.isabs(resolved):
+                resolved = os.path.abspath(os.path.join(os.getcwd(), resolved))
+            return resolved
+
+        if not db_path:
+            db_path = "database/clms.db"
+
+        if not os.path.isabs(db_path):
+            db_path = os.path.abspath(os.path.join(os.getcwd(), db_path))
+
+        return db_path
+
     # =====================================================
     # CLASS-LEVEL HELPER: SAFE CONNECTION FACTORY
     # =====================================================
     @staticmethod
-    def get_safe_connection(db_path: str = "database/clms.db"):
+    def get_safe_connection(db_path: str = None):
         """
         Create a SQLite connection with proper PRAGMA settings.
         MUST use this for all connections to ensure FK enforcement.
@@ -24,7 +42,10 @@ class Database:
             ...
             conn.close()
         """
-        conn = sqlite3.connect(db_path, timeout=30)
+        resolved_path = Database.resolve_db_path(db_path or "database/clms.db")
+        directory = os.path.dirname(resolved_path) or "."
+        os.makedirs(directory, exist_ok=True)
+        conn = sqlite3.connect(resolved_path, timeout=30)
         try:
             conn.execute("PRAGMA journal_mode=WAL;")
         except Exception:
@@ -45,10 +66,10 @@ class Database:
         # CHEMIN DE LA BASE DE DONNÉES
         # =====================================================
 
-        self.database_path = "database/clms.db"
+        self.database_path = Database.resolve_db_path("database/clms.db")
 
         # Créer le dossier database s'il n'existe pas
-        os.makedirs("database", exist_ok=True)
+        os.makedirs(os.path.dirname(self.database_path) or ".", exist_ok=True)
 
         # Connexion SQLite (timeout réduit les échecs immédiats en cas de contention)
         # On active WAL et foreign_keys pour diminuer les verrous et respecter les FK
@@ -312,6 +333,23 @@ class Database:
                 date_creation TEXT
 
             )
+        """)
+
+        # =================================================
+        # TABLE APP SETTINGS
+        # =================================================
+
+        self.cursor.execute("""
+            CREATE TABLE IF NOT EXISTS app_settings(
+                setting_key TEXT PRIMARY KEY,
+                setting_value TEXT NOT NULL,
+                updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+            )
+        """)
+
+        self.cursor.execute("""
+            INSERT OR IGNORE INTO app_settings(setting_key, setting_value, updated_at)
+            VALUES ('low_stock_threshold', '10', datetime('now'))
         """)
 
         # Ensure legacy schemas gain the password_salt column if missing
@@ -660,9 +698,61 @@ class Database:
         self.commit_with_retry()
         return True
 
+    def delete_user(self, user_id):
+        """Delete a single user record by id."""
+        self.cursor.execute("DELETE FROM users WHERE id = ?", (user_id,))
+        self.commit_with_retry()
+        return True
+
     def set_user_password(self, user_id, new_password):
         """Securely set a user's password using PBKDF2. Does not return the hash."""
         newhash, salt = self.make_password_hash(new_password)
         self.cursor.execute("UPDATE users SET password_hash = ?, password_salt = ? WHERE id = ?", (newhash, salt, user_id))
         self.commit_with_retry()
         return True
+
+    # =====================================================
+    # APP SETTINGS (minimal persisted config)
+    # =====================================================
+
+    def get_setting(self, key, default=None):
+        self.cursor.execute("SELECT setting_value FROM app_settings WHERE setting_key = ?", (key,))
+        row = self.cursor.fetchone()
+        if row is None:
+            return default
+        return row[0]
+
+    def set_setting(self, key, value):
+        if key is None or value is None:
+            raise ValueError('setting key and value are required')
+        self.cursor.execute(
+            """
+            INSERT INTO app_settings(setting_key, setting_value, updated_at)
+            VALUES (?, ?, datetime('now'))
+            ON CONFLICT(setting_key)
+            DO UPDATE SET setting_value = excluded.setting_value, updated_at = datetime('now')
+            """,
+            (key, str(value))
+        )
+        self.commit_with_retry()
+        return True
+
+    def get_low_stock_threshold(self, default=10):
+        try:
+            value = self.get_setting('low_stock_threshold', str(default))
+            threshold = int(value)
+            if threshold < 0:
+                return default
+            return threshold
+        except (TypeError, ValueError):
+            return default
+
+    def set_low_stock_threshold(self, value):
+        try:
+            threshold = int(value)
+        except (TypeError, ValueError):
+            raise ValueError('Le seuil de stock faible doit être un nombre.')
+        if threshold < 0:
+            raise ValueError('Le seuil de stock faible ne peut pas être négatif.')
+        self.set_setting('low_stock_threshold', threshold)
+        return threshold

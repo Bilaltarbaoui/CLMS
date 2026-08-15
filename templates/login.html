@@ -1,32 +1,194 @@
 <!doctype html>
 <html lang="fr">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{{ title if title else 'Login - CLMS' }}</title>
+    <title>CLMS — {{ title if title else 'Connexion' }}</title>
     <link rel="stylesheet" href="/static/css/style.css">
-  </head>
-  <body>
-    <div class="login-page">
-      <div class="login-box">
-        <h1>CLMS</h1>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-            <div class="flash-messages">
-              {% for category, message in messages %}
-                <div class="flash-message {{ category }}">{{ message }}</div>
-              {% endfor %}
+</head>
+<body class="login-page-body">
+    <div class="login-container">
+        <!-- Left Side: Premium Brand Section -->
+        <div class="login-hero">
+            <div class="hero-content">
+                <!-- Premium CSS Logo -->
+                <div class="premium-logo-wrapper">
+                    <div class="premium-logo">
+                        <div class="logo-mark">
+                            <div class="logo-box"></div>
+                            <div class="logo-letter">C</div>
+                        </div>
+                        <h1 class="logo-text">CLMS</h1>
+                    </div>
+                </div>
+
+                <!-- Hero Headline -->
+                <div class="hero-text">
+                    <h2 class="hero-title">Gestion Logistique</h2>
+                    <p class="hero-subtitle">Centralisez vos opérations logistiques en toute simplicité.</p>
+                    <p class="hero-description">Stocks, véhicules, gasoil et suivi des opérations réunis dans une seule plateforme.</p>
+                </div>
+
+                <!-- Dashboard Preview Glass Panel -->
+                <div class="dashboard-preview">
+                    <div class="preview-header">
+                        <span class="preview-label">CLMS Dashboard</span>
+                        <span class="preview-badge">v1.0</span>
+                    </div>
+
+                    <div class="preview-grid">
+                        <div class="preview-card">
+                            <div class="preview-icon">📦</div>
+                            <div class="preview-info">
+                                <span class="preview-value">14</span>
+                                <span class="preview-name">Produits</span>
+                            </div>
+                        </div>
+                        <div class="preview-card">
+                            <div class="preview-icon">🚚</div>
+                            <div class="preview-info">
+                                <span class="preview-value">6</span>
+                                <span class="preview-name">Véhicules</span>
+                            </div>
+                        </div>
+                        <div class="preview-card">
+                            <div class="preview-icon">⛽</div>
+                            <div class="preview-info">
+                                <span class="preview-value">384</span>
+                                <span class="preview-name">Gasoil (L)</span>
+                            </div>
+                        </div>
+                        <div class="preview-card">
+                            <div class="preview-icon">📊</div>
+                            <div class="preview-info">
+                                <span class="preview-value">102</span>
+                                <span class="preview-name">Mouvements</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="preview-footer">
+                        <div class="preview-user">
+                            <div class="user-avatar"></div>
+                            <span>Admin</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Background decoration -->
+                <div class="hero-decoration"></div>
             </div>
-          {% endif %}
-        {% endwith %}
-        <form method="post" action="{{ url_for('login') }}">
-          <label>Nom d'utilisateur</label>
-          <input type="text" name="username" required autofocus>
-          <label>Mot de passe</label>
-          <input type="password" name="password" required>
-          <button type="submit" class="button">Se connecter</button>
-        </form>
-      </div>
+        </div>
+
+        <!-- Right Side: Premium Login Card -->
+        <div class="login-section">
+            <div class="login-card">
+                <!-- Header -->
+                <div class="login-header">
+                    <h2 class="welcome-title">Bienvenue 👋</h2>
+                    <p class="welcome-subtitle">Connectez-vous à votre espace CLMS</p>
+                </div>
+
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="flash-messages">
+                            {% for category, message in messages %}
+                                <div class="flash-message {{ category }}">
+                                    {% if category == 'error' %}
+                                        <span class="message-icon">⚠️</span>
+                                    {% else %}
+                                        <span class="message-icon">✓</span>
+                                    {% endif %}
+                                    <div class="message-content">{{ message }}</div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                <!-- Login Form -->
+                <form method="post" action="{{ url_for('login') }}" class="login-form">
+                    <!-- Username Field -->
+                    <div class="form-group">
+                        <label for="username" class="form-label">
+                            <span class="label-text">Nom d'utilisateur</span>
+                        </label>
+                        <div class="form-input-wrapper">
+                            <span class="input-icon">👤</span>
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                class="form-input"
+                                placeholder="admin"
+                                required
+                                autofocus
+                            >
+                        </div>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="form-group">
+                        <label for="password" class="form-label">
+                            <span class="label-text">Mot de passe</span>
+                        </label>
+                        <div class="form-input-wrapper password-field">
+                            <span class="input-icon">🔒</span>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                class="form-input"
+                                placeholder="••••••••"
+                                required
+                            >
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                onclick="togglePasswordVisibility()"
+                                aria-label="Afficher/masquer le mot de passe"
+                                tabindex="0"
+                            >
+                                <span class="toggle-icon">👁️</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="login-button">
+                        <span>Se connecter</span>
+                        <span class="button-arrow">→</span>
+                    </button>
+                </form>
+
+                <!-- Footer -->
+                <div class="login-footer">
+                    <p class="footer-text">CLMS • Gestion Logistique v1.0.0</p>
+                </div>
+            </div>
+        </div>
     </div>
-  </body>
+
+    <script>
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const toggleBtn = event.currentTarget;
+            const toggleIcon = toggleBtn.querySelector('.toggle-icon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.textContent = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.textContent = '👁️';
+            }
+        }
+
+        // Smooth page entrance animation
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.style.opacity = '1';
+        });
+    </script>
+</body>
 </html>

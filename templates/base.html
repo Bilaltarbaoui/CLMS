@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{{ title if title else 'CLMS' }}</title>
+    <title>CLMS — {{ title if title else 'Gestion Logistique' }}</title>
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/clients.css">
   </head>
@@ -61,12 +61,7 @@
         {% endwith %}
 
         <section class="content">
-          {% block content %}
-          <div class="placeholder">
-            <h2>{{ title if title else 'CLMS' }}</h2>
-            <p>Page en construction.</p>
-          </div>
-          {% endblock %}
+          {% block content %}{% endblock %}
         </section>
       </main>
     </div>

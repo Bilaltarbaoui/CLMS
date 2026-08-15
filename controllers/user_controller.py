@@ -111,6 +111,27 @@ class UserController:
         return res
 
     # =====================================================
+    # DELETE
+    # =====================================================
+
+    def delete_user(self, user_id):
+        try:
+            prev = self.get_user_by_id(user_id)
+        except Exception:
+            prev = None
+
+        res = self.db.delete_user(user_id)
+
+        try:
+            actor = getattr(self, '_actor', None) or 'SYSTEM'
+            username = prev.get('username') if prev else f'id={user_id}'
+            self.db.ajouter_historique(actor, 'DELETE', 'Utilisateur', f'Utilisateur {username} supprimé')
+        except Exception:
+            pass
+
+        return res
+
+    # =====================================================
     # PASSWORD
     # =====================================================
 

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="settings-page">
+    <div class="card settings-card">
+      <div class="panel-header">Paramètres de l'application</div>
+
+      <form method="post" class="settings-form">
+        <div class="settings-section">
+          <h3>Informations</h3>
+          <div class="info-grid">
+            <div class="info-row">
+              <span class="info-label">Nom de l'application</span>
+              <strong>{{ app_name }}</strong>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Version</span>
+              <strong>{{ app_version }}</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h3>Stock</h3>
+          <div class="field-group">
+            <label for="low_stock_threshold">Seuil d'alerte de stock faible</label>
+            <input
+              id="low_stock_threshold"
+              name="low_stock_threshold"
+              type="number"
+              min="0"
+              step="1"
+              value="{{ low_stock_threshold }}"
+              required
+            >
+            <small>Valeur utilisée comme seuil de stock bas pour les alertes de produits.</small>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h3>Sécurité</h3>
+          <div class="field-group">
+            <label for="current_password">Mot de passe actuel</label>
+            <input id="current_password" name="current_password" type="password" autocomplete="current-password">
+          </div>
+
+          <div class="field-group">
+            <label for="new_password">Nouveau mot de passe</label>
+            <input id="new_password" name="new_password" type="password" autocomplete="new-password">
+          </div>
+
+          <div class="field-group">
+            <label for="confirm_password">Confirmer le nouveau mot de passe</label>
+            <input id="confirm_password" name="confirm_password" type="password" autocomplete="new-password">
+          </div>
+
+          <p class="password-note">Laissez vide si vous ne souhaitez pas modifier votre mot de passe.</p>
+        </div>
+
+        <div class="settings-actions">
+          <button type="submit" class="btn-primary">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
