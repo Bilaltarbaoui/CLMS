@@ -11,9 +11,21 @@ from controllers.user_controller import UserController
 import functools
 from flask import abort
 from database.database import Database
+import os
+import secrets
 
 app = Flask(__name__)
-app.secret_key = 'replace-with-secure-key'
+
+# Use environment variable for secret key, fallback to a random one for development
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', secrets.token_hex(32))
+
+# Disable Jinja2 template caching in development/debug mode
+# In production, caching is enabled by default (good for performance)
+if os.environ.get('FLASK_ENV') == 'development':
+    app.jinja_env.cache = None
+
+APP_NAME = 'CLMS'
+APP_VERSION = '1.0.0'
 
 # Ensure database schema exists and is initialized before handling requests.
 database = Database()
@@ -110,7 +122,7 @@ def login():
         except Exception as e:
             flash('Erreur lors de la connexion.', 'error')
 
-    return render_template('login.html', title='Login')
+    return render_template('login.html', title='Connexion')
 
 
 @app.route('/logout')
@@ -709,14 +721,108 @@ def historique():
     finally:
         controller.close()
 
-@app.route('/parametres')
+@app.route('/parametres', methods=['GET', 'POST'])
 @require_role('admin')
 def parametres():
-    return render_template('base.html', title='Paramètres', active='parametres')
+    db = Database()
+    current_user = None
+    username = session.get('username')
+
+    if username:
+        current_user = db.get_user_by_username(username)
+
+    low_stock_threshold = db.get_low_stock_threshold(default=10)
+
+    if request.method == 'POST':
+        threshold_value = request.form.get('low_stock_threshold', '').strip()
+        current_password = request.form.get('current_password', '')
+        new_password = request.form.get('new_password', '')
+        confirm_password = request.form.get('confirm_password', '')
+
+        try:
+            if threshold_value == '':
+                raise ValueError('Le seuil de stock faible est requis.')
+            low_stock_threshold = int(threshold_value)
+            if low_stock_threshold < 0:
+                raise ValueError('Le seuil de stock faible ne peut pas être négatif.')
+        except ValueError as exc:
+            flash(str(exc), 'error')
+            return render_template(
+                'parametres.html',
+                title='Paramètres',
+                active='parametres',
+                app_name=APP_NAME,
+                app_version=APP_VERSION,
+                low_stock_threshold=threshold_value,
+                current_user=current_user
+            )
+
+        password_change_requested = any(value.strip() for value in (current_password, new_password, confirm_password))
+        if password_change_requested:
+            if not current_password or not new_password or not confirm_password:
+                flash('Pour modifier le mot de passe, remplissez le mot de passe actuel, le nouveau mot de passe et la confirmation.', 'error')
+                return render_template(
+                    'parametres.html',
+                    title='Paramètres',
+                    active='parametres',
+                    app_name=APP_NAME,
+                    app_version=APP_VERSION,
+                    low_stock_threshold=low_stock_threshold,
+                    current_user=current_user
+                )
+            if new_password != confirm_password:
+                flash('La confirmation du nouveau mot de passe ne correspond pas.', 'error')
+                return render_template(
+                    'parametres.html',
+                    title='Paramètres',
+                    active='parametres',
+                    app_name=APP_NAME,
+                    app_version=APP_VERSION,
+                    low_stock_threshold=low_stock_threshold,
+                    current_user=current_user
+                )
+            if not db.verify_and_migrate_password(username, current_password):
+                flash('Le mot de passe actuel est incorrect.', 'error')
+                return render_template(
+                    'parametres.html',
+                    title='Paramètres',
+                    active='parametres',
+                    app_name=APP_NAME,
+                    app_version=APP_VERSION,
+                    low_stock_threshold=low_stock_threshold,
+                    current_user=current_user
+                )
+
+            uc = UserController()
+            try:
+                uc.set_user_password(current_user['id'], new_password)
+            finally:
+                uc.close()
+            flash('Mot de passe mis à jour avec succès.', 'success')
+
+        db.set_low_stock_threshold(low_stock_threshold)
+        flash('Paramètres enregistrés avec succès.', 'success')
+        return redirect(url_for('parametres'))
+
+    return render_template(
+        'parametres.html',
+        title='Paramètres',
+        active='parametres',
+        app_name=APP_NAME,
+        app_version=APP_VERSION,
+        low_stock_threshold=low_stock_threshold,
+        current_user=current_user
+    )
 
 @app.route('/a-propos')
 def a_propos():
-    return render_template('base.html', title='À propos', active='a_propos')
+    return render_template(
+        'a_propos.html',
+        title='À propos',
+        active='a_propos',
+        app_name=APP_NAME,
+        app_version=APP_VERSION
+    )
 
 
 @app.route('/auth-debug')
@@ -828,6 +934,33 @@ def users_edit(user_id):
         uc.close()
 
 
+@app.route('/users/delete/<int:user_id>', methods=['POST'])
+@require_role('admin')
+def users_delete(user_id):
+    uc = UserController()
+    try:
+        user = uc.get_user_by_id(user_id)
+        if not user:
+            flash('Utilisateur introuvable.', 'error')
+            return redirect(url_for('gestion_utilisateurs'))
+
+        current_username = session.get('username')
+        if current_username and user.get('username') == current_username:
+            flash('Vous ne pouvez pas supprimer votre propre compte.', 'error')
+            return redirect(url_for('gestion_utilisateurs'))
+
+        if user.get('role') == 'admin' or user.get('username') == 'admin' or user_id == 1:
+            flash('Vous ne pouvez pas supprimer l’administrateur principal.', 'error')
+            return redirect(url_for('gestion_utilisateurs'))
+
+        uc._actor = session.get('username')
+        uc.delete_user(user_id)
+        flash('Utilisateur supprimé avec succès.', 'success')
+        return redirect(url_for('gestion_utilisateurs'))
+    finally:
+        uc.close()
+
+
 @app.route('/users/toggle-active/<int:user_id>', methods=['POST'])
 @require_role('admin')
 def users_toggle_active(user_id):
@@ -892,8 +1025,14 @@ def users_change_password(user_id):
     finally:
         uc.close()
 
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Get configuration from environment variables
+    host = os.environ.get('FLASK_HOST', '127.0.0.1')
+    port = int(os.environ.get('PORT', os.environ.get('FLASK_PORT', 5000)))
+    debug = os.environ.get('FLASK_ENV') == 'development'
+    
+    app.run(host=host, port=port, debug=debug)
 
 
 @app.errorhandler(403)

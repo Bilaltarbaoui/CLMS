@@ -7,7 +7,8 @@ inspect_*.py
 verify_*.py
 temp_*.py
 
-database/clms.db
+# Note: database/clms.db is NOT ignored - it's needed for deployment
+# If you want to exclude it, update this file
 
 # Python generated files
 __pycache__/
